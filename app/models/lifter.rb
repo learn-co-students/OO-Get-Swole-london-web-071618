@@ -1,7 +1,7 @@
 
 class Lifter
 
-  attr_reader :name, :lift_total
+  attr_accessor :name, :lift_total
 
 
   @@all = []
@@ -21,25 +21,24 @@ class Lifter
   end
 
   def gyms
-    memberships = Membership.all.select {|membership| membership.lifter == self}
     memberships.map {|membership| membership.gym}
   end
 
-  def self.avg_lift_total
+  def self.average_lift
       total = 0
-      Lifter.all.each {|lifter| total = total + lifter.lift_total}
+      Lifter.all.each {|lifter| total += lifter.lift_total}
       total/ (Lifter.all.size)
   end
 
   def total_cost
-    memberships = Membership.all.select {|membership| membership.lifter == self}
-    total_cost = 0
-    memberships.each {|membership| total_cost += membership.cost}
-    total_cost
+      memberships = Membership.all.select {|membership| membership.lifter == self}
+      total_cost = 0
+      memberships.each {|membership| total_cost += membership.cost}
+      return total_cost
   end
 
-  def add_membership(cost, gym)
-    Membership.new(cost, gym, self)
+  def sign_up(cost, gym)
+    Membership.new(self, gym, cost)
   end
 
 

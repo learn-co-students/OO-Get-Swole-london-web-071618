@@ -1,7 +1,7 @@
 class Gym
  ALL = []
 
-  attr_reader :name
+  attr_accessor :name
 
       def initialize(name)
         @name = name
@@ -13,23 +13,22 @@ class Gym
         ALL
       end
 
-
-      def all_memberships
+      def memberships
         Membership.all.select {|membership| membership.gym == self}
       end
 
-      def all_lifters
-        all_memberships.map {|membership| membership.lifter}
+      def lifters
+          memberships.map {|membership| membership.lifter}
       end
 
-      def all_lifters_names
-        all_lifters.map {|lifter| lifter.name}
+      def lifter_names
+          lifters.map {|lifter| lifter.name}
       end
 
-      def lift_total
-        lift_total = 0
-        all_lifters.each {|lifter| lift_total += lifter.lift_total}
-        lift_total
+      def lift_total_for_gym
+          lift_total = 0
+          lifters.each {|lifter| lift_total += lifter.lift_total}
+          lift_total
       end
 
 end
